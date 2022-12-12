@@ -1,7 +1,6 @@
 (ns advent-of-code-2022.day07
   (:require [clojure.java.io :as io]
-            [clojure.string :as string]
-            [clojure.zip :as z]))
+            [clojure.string :as string]))
 
 (def real-input (slurp (io/resource "day07.txt")))
 
