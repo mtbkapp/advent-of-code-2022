@@ -197,3 +197,39 @@ noop")
 ; left pixel = 0
 ; 
 
+(def blank-screen
+  (vec (repeat 6 (vec (repeat 40 false)))))
+
+
+(defn t->coord
+  [t]
+  [(mod t 40) (quot t 40)])
+
+
+(defn calc-frame
+  [input]
+  (transduce (map-indexed vector)
+             (completing
+               (fn [screen [t sprite-x]]
+                 (let [[scan-x scan-y] (t->coord t)]
+                   (if (or (= (dec sprite-x) scan-x)
+                           (= sprite-x scan-x)
+                           (= (inc sprite-x) scan-x))
+                     (assoc-in screen [scan-y scan-x] true)
+                     screen))))
+             blank-screen
+             (sim-x-history (parse-input input))))
+
+
+#_(render (calc-frame test-input))
+#_(render (calc-frame real-input))
+(defn render 
+  [frame]
+  (doseq [row frame]
+    (doseq [col row]
+      (print (if col "#" " ")))
+    (println)))
+
+
+
+
